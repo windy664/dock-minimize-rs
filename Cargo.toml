@@ -1,0 +1,15 @@
+[package]
+name = "dock-minimize"
+version = "1.0.0"
+edition = "2021"
+description = "Rust port of rosakodu.dock scripts/dock-minimize.py"
+
+[dependencies]
+serde_json = "1"
+regex = "1"
+shlex = "1"
+libc = "0.2"
+
+[profile.release]
+strip = true
+lto = true
