@@ -1,12 +1,15 @@
 # dock-minimize-rs
 
-A Rust rewrite of the `dock-minimize.py` helper behind the
-[rosakodu.dock](https://github.com/rosakodu) taskbar plugin for
-[Omarchy](https://omarchy.org) (Arch + Hyprland + quickshell).
+Rust tools for the [rosakodu.dock](https://github.com/rosakodu) taskbar
+plugin on [Omarchy](https://omarchy.org) (Arch + Hyprland + quickshell):
 
-Same behavior, no Python at click time — a single small native binary.
+- **dock-minimize** — a rewrite of the dock's `dock-minimize.py` helper.
+  Same behavior, no Python at click time — a single small native binary.
+- **drawer-watch** — a tiny daemon that auto-stashes an open drawer
+  (special workspace) the moment focus lands on a window outside it,
+  like macOS. See [below](#drawer-watch).
 
-## What it does
+## dock-minimize
 
 The dock talks to this binary on every click. It is responsible for all
 window-state transitions of dock icons:
@@ -77,6 +80,39 @@ On Omarchy's Hyprland, when a special workspace is open,
 special workspace only shows up in `j/monitors` → `specialWorkspace`. If you
 debug special-workspace logic, watch the monitor field, not the active
 workspace.
+
+## drawer-watch
+
+Omarchy's smart-focus dispatcher (`hl.dsp.focus`) closes an open special
+workspace when focus moves outside it — but a plain *mouse click* focuses a
+window natively and leaves the drawer hanging open on screen.
+
+`drawer-watch` fixes that: it subscribes to Hyprland's event socket
+(`activewindowv2`), and whenever a special workspace is open and the newly
+focused window does not live in it, it toggles the special workspace closed.
+Clicks between windows inside the drawer keep it open; clicking empty
+desktop (no focus change) keeps it open too.
+
+Run it as a systemd user service:
+
+```ini
+# ~/.config/systemd/user/drawer-watch.service
+[Unit]
+Description=Auto-stash open Hyprland drawer when focusing a window outside it
+
+[Service]
+ExecStart=%h/.local/bin/drawer-watch
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target
+```
+
+```sh
+systemctl --user daemon-reload
+systemctl --user enable --now drawer-watch.service
+```
 
 ## License
 

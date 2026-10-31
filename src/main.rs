@@ -6,14 +6,13 @@
 // by toggling that workspace open and focusing the window — it is never
 // moved out, so Super+S still stashes it back.
 
+use dock_minimize::{get_hypr_socket, hypr_cmd};
 use regex::Regex;
 use serde_json::Value;
 use std::collections::HashMap;
 use std::env;
 use std::fs;
-use std::io::{Read, Write};
 use std::os::unix::fs::PermissionsExt;
-use std::os::unix::net::UnixStream;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::sync::LazyLock;
@@ -195,41 +194,6 @@ fn is_terminal_identifier(s: &str) -> bool {
         }
     }
     false
-}
-
-fn get_hypr_socket() -> Option<PathBuf> {
-    let runtime = env::var("XDG_RUNTIME_DIR")
-        .unwrap_or_else(|_| format!("/run/user/{}", unsafe { libc::getuid() }));
-    if let Ok(sig) = env::var("HYPRLAND_INSTANCE_SIGNATURE") {
-        let p = PathBuf::from(&runtime).join("hypr").join(&sig).join(".socket.sock");
-        if p.exists() {
-            return Some(p);
-        }
-    }
-    let base = PathBuf::from(&runtime).join("hypr");
-    if let Ok(rd) = fs::read_dir(&base) {
-        for entry in rd.flatten() {
-            let p = entry.path().join(".socket.sock");
-            if p.exists() {
-                return Some(p);
-            }
-        }
-    }
-    None
-}
-
-fn hypr_cmd(sock_path: &Path, cmd: &str) -> String {
-    let Ok(mut stream) = UnixStream::connect(sock_path) else {
-        return String::new();
-    };
-    if stream.write_all(cmd.as_bytes()).is_err() {
-        return String::new();
-    }
-    let mut res = Vec::new();
-    if stream.read_to_end(&mut res).is_err() {
-        return String::new();
-    }
-    String::from_utf8_lossy(&res).into_owned()
 }
 
 fn sfield(c: &Value, key: &str) -> String {
