@@ -84,35 +84,31 @@ workspace.
 ## drawer-watch
 
 Omarchy's smart-focus dispatcher (`hl.dsp.focus`) closes an open special
-workspace when focus moves outside it — but a plain *mouse click* focuses a
-window natively and leaves the drawer hanging open on screen.
+workspace when focus moves outside it — but a plain *mouse click* never
+reaches the windows underneath (`input:special_fallthrough = false` by
+default), so an open drawer just hangs there until you toggle it away.
 
-`drawer-watch` fixes that: it subscribes to Hyprland's event socket
-(`activewindowv2`), and whenever a special workspace is open and the newly
-focused window does not live in it, it toggles the special workspace closed.
-Clicks between windows inside the drawer keep it open; clicking empty
-desktop (no focus change) keeps it open too.
+**Recommended setup: click-to-stash.** Enable fallthrough and bind a
+non-consuming left-click hook:
 
-Run it as a systemd user service:
+```lua
+-- ~/.config/hypr/input.lua — let clicks reach the windows under the drawer
+hl.config({ input = { special_fallthrough = true } })
 
-```ini
-# ~/.config/systemd/user/drawer-watch.service
-[Unit]
-Description=Auto-stash open Hyprland drawer when focusing a window outside it
-
-[Service]
-ExecStart=%h/.local/bin/drawer-watch
-Restart=always
-RestartSec=2
-
-[Install]
-WantedBy=default.target
+-- ~/.config/hypr/bindings.lua — clicking outside an open drawer closes it
+hl.bind("mouse:272", hl.dsp.exec_cmd("drawer-watch click"), { click = true })
 ```
 
-```sh
-systemctl --user daemon-reload
-systemctl --user enable --now drawer-watch.service
-```
+`drawer-watch click` is a one-shot check: if a special workspace is open and
+the cursor is not over one of its windows, it is toggled closed. Clicks on
+the drawer's own windows are ignored, and because the bind is non-consuming
+plus fallthrough is on, the same click still lands on the window underneath —
+one click both dismisses the drawer and activates what you aimed at.
+
+There is also `drawer-watch watch`, a daemon that stashes the drawer whenever
+focus lands outside it (subscribes to Hyprland's event socket, run it as a
+systemd user service if you want that flavor). With focus-follows-mouse this
+reacts to *hover*, which is usually not what you want — hence the click bind.
 
 ## License
 
