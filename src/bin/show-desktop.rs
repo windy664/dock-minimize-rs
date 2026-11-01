@@ -70,6 +70,41 @@ fn windows_on_workspace(sock: &std::path::Path, ws_id: i64) -> Vec<String> {
         .unwrap_or_default()
 }
 
+/// Whether the given special workspace is currently open on any monitor.
+fn special_is_open(sock: &std::path::Path, special: &str) -> bool {
+    let monitors: Value = match serde_json::from_str(&hypr_cmd(sock, "j/monitors")) {
+        Ok(v) => v,
+        Err(_) => return false,
+    };
+    monitors
+        .as_array()
+        .map(|arr| {
+            arr.iter().any(|m| {
+                m.get("specialWorkspace")
+                    .and_then(|sw| sw.get("name"))
+                    .and_then(|v| v.as_str())
+                    == Some(special)
+            })
+        })
+        .unwrap_or(false)
+}
+
+/// This fork's `hl.dsp.window.move` auto-opens the target special workspace,
+/// so parking windows in special:desktop pops the whole stash up as a drawer.
+/// Close it again after stashing, and close it before restoring so windows
+/// land back on the visible base workspace instead of inside the drawer.
+fn close_special(sock: &std::path::Path, special: &str) {
+    if special_is_open(sock, special) {
+        hypr_cmd(
+            sock,
+            &format!(
+                r#"dispatch hl.dsp.workspace.toggle_special("{}")"#,
+                special.trim_start_matches("special:")
+            ),
+        );
+    }
+}
+
 fn stash(sock: &std::path::Path) {
     let Some(ws_id) = active_workspace_id(sock) else {
         eprintln!("show-desktop: no active workspace");
@@ -89,6 +124,7 @@ fn stash(sock: &std::path::Path) {
     for addr in &addrs {
         move_window(sock, addr, SPECIAL);
     }
+    close_special(sock, SPECIAL);
 }
 
 fn restore(sock: &std::path::Path) {
@@ -96,6 +132,7 @@ fn restore(sock: &std::path::Path) {
         stash(sock); // no state: first press semantics
         return;
     };
+    close_special(sock, SPECIAL);
     let _ = fs::remove_file(state_path());
     let mut lines = state.lines();
     let Some(ws_id) = lines.next().and_then(|l| l.parse::<i64>().ok()) else {
