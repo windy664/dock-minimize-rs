@@ -8,8 +8,6 @@ plugin on [Omarchy](https://omarchy.org) (Arch + Hyprland + quickshell):
 - **drawer-watch** — a tiny daemon that auto-stashes an open drawer
   (special workspace) the moment focus lands on a window outside it,
   like macOS. See [below](#drawer-watch).
-- **show-desktop** — Ubuntu/macOS-style show-desktop toggle (Super+D).
-  See [below](#show-desktop).
 
 ## dock-minimize
 
@@ -118,26 +116,6 @@ There is also `drawer-watch watch`, a daemon that stashes the drawer whenever
 focus lands outside it (subscribes to Hyprland's event socket, run it as a
 systemd user service if you want that flavor). With focus-follows-mouse this
 reacts to *hover*, which is usually not what you want — hence the click bind.
-
-## show-desktop
-
-Hyprland has no minimize-all dispatcher, so this emulates GNOME/Ubuntu's
-"show desktop" with a dedicated `special:desktop` workspace. One invocation
-moves every window on the active workspace aside (recording their addresses
-and the focused window in `$XDG_RUNTIME_DIR/show-desktop.state`); the next
-invocation moves them back and restores focus. Windows parked in other
-special workspaces — a user scratchpad drawer or `special:minimized` — are
-never touched, so it composes cleanly with the other two tools.
-
-```lua
--- ~/.config/hypr/bindings.lua
-hl.bind("SUPER + D", hl.dsp.exec_cmd("show-desktop"))
-```
-
-While the desktop is shown, clicking a dock icon restores *just that
-window* to the current workspace (dock-minimize treats `special:desktop`
-as minimized, not as a user drawer), so you can pull apps back one by one
-without popping the whole stash.
 
 ## License
 

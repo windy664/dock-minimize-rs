@@ -1001,11 +1001,9 @@ fn run(args: &[String]) {
         let addr = sfield(&target_c, "address");
         let is_min = ws_name(&target_c).starts_with("special:");
 
-        // 用户自建抽屉（如 scratchpad）：展开抽屉即可，窗口不搬出。
-        // special:desktop 是 show-desktop 的暂存区，按最小化处理——
-        // 只取回点中的那个窗口，不把整堆窗口弹出来。
+        // 用户自建抽屉（如 scratchpad）：展开抽屉即可，窗口不搬出
         let src_ws_name = ws_name(&target_c);
-        if is_min && src_ws_name != "special:minimized" && src_ws_name != "special:desktop" {
+        if is_min && src_ws_name != "special:minimized" {
             reveal_user_drawer(&sock_path, &src_ws_name, &addr);
             return;
         }
@@ -1109,11 +1107,9 @@ fn run(args: &[String]) {
         let addr = sfield(&target_c, "address");
         let is_min = ws_name(&target_c).starts_with("special:");
 
-        // 用户自建抽屉（如 scratchpad）：展开抽屉即可，窗口不搬出。
-        // special:desktop 是 show-desktop 的暂存区，按最小化处理——
-        // 只取回点中的那个窗口，不把整堆窗口弹出来。
+        // 用户自建抽屉（如 scratchpad）：展开抽屉即可，窗口不搬出
         let src_ws_name = ws_name(&target_c);
-        if is_min && src_ws_name != "special:minimized" && src_ws_name != "special:desktop" {
+        if is_min && src_ws_name != "special:minimized" {
             reveal_user_drawer(&sock_path, &src_ws_name, &addr);
             return;
         }
