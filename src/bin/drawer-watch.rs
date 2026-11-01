@@ -55,13 +55,17 @@ fn active_window_workspace(cmd_sock: &Path) -> Option<String> {
         .map(|s| s.to_string())
 }
 
+fn log(msg: &str) {
+    eprintln!("drawer-watch: {msg}");
+}
+
 fn stash(cmd_sock: &Path, special: &str, why: &str) {
     let clean = special.replace("special:", "");
     hypr_cmd(
         cmd_sock,
         &format!(r#"dispatch hl.dsp.workspace.toggle_special("{clean}")"#),
     );
-    eprintln!("drawer-watch: stashed {special} ({why})");
+    log(&format!("stash {special} ({why})"));
 }
 
 fn cursor_over_drawer_window(cmd_sock: &Path, special: &str) -> bool {
@@ -103,11 +107,20 @@ fn cursor_over_drawer_window(cmd_sock: &Path, special: &str) -> bool {
 }
 
 fn click() {
-    let Some(cmd_sock) = get_hypr_socket() else { return };
-    let Some(special) = open_special_name(&cmd_sock) else { return };
+    let Some(cmd_sock) = get_hypr_socket() else {
+        log("click: no command socket");
+        return;
+    };
+    let cursor = hypr_cmd(&cmd_sock, "cursorpos");
+    let Some(special) = open_special_name(&cmd_sock) else {
+        log("click: no drawer open");
+        return;
+    };
     if cursor_over_drawer_window(&cmd_sock, &special) {
+        log("click: cursor over drawer window, keep open");
         return; // clicked inside the drawer — keep it open
     }
+    log(&format!("click: stashing {special}, cursor was {cursor:?}"));
     stash(&cmd_sock, &special, "outside click");
 }
 

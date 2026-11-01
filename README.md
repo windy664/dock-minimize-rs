@@ -96,7 +96,7 @@ non-consuming left-click hook:
 hl.config({ input = { special_fallthrough = true } })
 
 -- ~/.config/hypr/bindings.lua — clicking outside an open drawer closes it
-hl.bind("mouse:272", hl.dsp.exec_cmd("drawer-watch click"), { click = true })
+hl.bind("mouse:272", hl.dsp.exec_cmd("drawer-watch click"), { non_consuming = true })
 ```
 
 `drawer-watch click` is a one-shot check: if a special workspace is open and
@@ -104,6 +104,13 @@ the cursor is not over one of its windows, it is toggled closed. Clicks on
 the drawer's own windows are ignored, and because the bind is non-consuming
 plus fallthrough is on, the same click still lands on the window underneath —
 one click both dismisses the drawer and activates what you aimed at.
+
+**Fork gotcha:** do *not* add `click = true` on this Hyprland Lua fork.
+Click-flag binds fire on button *release*, and with `non_consuming` set the
+release callback is regularly dropped, so the stash only works intermittently
+(the bind registers as `release` in `hyprctl binds` — that's the tell). A
+plain non-consuming bind fires on press and fires every time; verified
+against 29/29 real clicks.
 
 There is also `drawer-watch watch`, a daemon that stashes the drawer whenever
 focus lands outside it (subscribes to Hyprland's event socket, run it as a
