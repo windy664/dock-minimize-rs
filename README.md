@@ -134,6 +134,11 @@ never touched, so it composes cleanly with the other two tools.
 hl.bind("SUPER + D", hl.dsp.exec_cmd("show-desktop"))
 ```
 
+While the desktop is shown, clicking a dock icon restores *just that
+window* to the current workspace (dock-minimize treats `special:desktop`
+as minimized, not as a user drawer), so you can pull apps back one by one
+without popping the whole stash.
+
 ## License
 
 MIT — see [LICENSE](LICENSE). Contains a port of code from rosakodu.dock
