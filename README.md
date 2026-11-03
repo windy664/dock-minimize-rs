@@ -1,4 +1,14 @@
+<div align="center">
+
+<img src="assets/banner.svg" alt="dock-minimize-rs" width="100%">
+
+</div>
+
 # dock-minimize-rs
+
+![Rust](https://img.shields.io/badge/Rust-2021-d99a6c?style=flat-square&logo=rust&logoColor=white)
+![Platform](https://img.shields.io/badge/Omarchy-Hyprland%20%2B%20quickshell-1a79a5?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-3da639?style=flat-square)
 
 Rust tools for the [rosakodu.dock](https://github.com/rosakodu) taskbar
 plugin on [Omarchy](https://omarchy.org) (Arch + Hyprland + quickshell):
