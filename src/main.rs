@@ -546,13 +546,11 @@ fn parse_url_host_path(raw_url: &str) -> (String, String) {
         Some(i) => &raw_url[i + 3..],
         None => raw_url,
     };
-    let netloc_end = rest
-        .find(|c| c == '/' || c == '?' || c == '#')
-        .unwrap_or(rest.len());
+    let netloc_end = rest.find(['/', '?', '#']).unwrap_or(rest.len());
     let host = rest[..netloc_end].to_lowercase();
     let after = &rest[netloc_end..];
     let path = if after.starts_with('/') {
-        let end = after.find(|c| c == '?' || c == '#').unwrap_or(after.len());
+        let end = after.find(['?', '#']).unwrap_or(after.len());
         after[..end].to_string()
     } else {
         "/".to_string()
@@ -691,15 +689,12 @@ fn pick_target<'a>(
 }
 
 fn spawn_detached(cmd: &[&str]) -> bool {
-    match Command::new(cmd[0])
+    Command::new(cmd[0])
         .args(&cmd[1..])
         .stdout(Stdio::null())
         .stderr(Stdio::null())
         .spawn()
-    {
-        Ok(_) => true,
-        Err(_) => false,
-    }
+        .is_ok()
 }
 
 fn which(exe: &str) -> bool {
@@ -728,10 +723,10 @@ fn launch_fallback(queries: &[String]) {
             continue;
         }
         let clean_q = q.replace(".desktop", "").to_lowercase().trim().to_string();
-        if clean_q == "cliamp" || clean_q == "org.omarchy.cliamp" {
-            if spawn_detached(&["foot", "-a", "cliamp", "-T", "cliamp", "-e", "cliamp"]) {
-                return;
-            }
+        if (clean_q == "cliamp" || clean_q == "org.omarchy.cliamp")
+            && spawn_detached(&["foot", "-a", "cliamp", "-T", "cliamp", "-e", "cliamp"])
+        {
+            return;
         }
     }
 
