@@ -52,8 +52,20 @@ while removing the Python startup cost and dependency at interaction time.
 ## Build
 
 ```sh
-cargo build --release
-install -m 755 target/release/dock-minimize ~/.local/bin/dock-minimize
+cargo install --git https://github.com/windy664/dock-minimize-rs
+```
+
+That installs both binaries, `dock-minimize` and `drawer-watch`.
+
+The CI builds them and attaches them to every run, so a machine without a
+Rust toolchain can install them from the artifact instead:
+
+```sh
+gh run download --repo windy664/dock-minimize-rs \
+  --name dock-minimize-rs-x86_64-unknown-linux-gnu \
+  -D .
+install -Dm755 dock-minimize ~/.local/bin/dock-minimize
+install -Dm755 drawer-watch ~/.local/bin/drawer-watch
 ```
 
 ## Hook it into the dock
