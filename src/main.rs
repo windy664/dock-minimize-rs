@@ -32,35 +32,186 @@ fn normalize(s: &str) -> String {
 }
 
 const KNOWN_CLI_COMMANDS: &[&str] = &[
-    "yazi", "nvim", "neovim", "vim", "nano", "micro", "helix", "hx", "emacs", "kakoune", "kak", "amp",
-    "btop", "htop", "top", "bottom", "btm", "glances", "bashtop", "bpytop", "nvtop", "gotop",
-    "ranger", "superfile", "broot", "vifm", "nnn", "lf", "fff", "mc", "midnight-commander", "clifm",
-    "lazygit", "lazydocker", "tig", "gitui", "k9s", "ox", "bandwhich", "gping",
-    "ncmpcpp", "cmus", "mocp", "cava", "cliamp", "rmpc", "spotify-tui", "spt", "mopidy", "musikcube",
-    "weechat", "irssi", "profanity", "neomutt", "mutt", "aerc", "gomuks", "senpai",
-    "tmux", "zellij", "cmatrix", "pipes.sh", "fastfetch", "neofetch", "cbonsai", "tty-clock", "peaclock", "termshark", "glow", "curseofwar",
+    "yazi",
+    "nvim",
+    "neovim",
+    "vim",
+    "nano",
+    "micro",
+    "helix",
+    "hx",
+    "emacs",
+    "kakoune",
+    "kak",
+    "amp",
+    "btop",
+    "htop",
+    "top",
+    "bottom",
+    "btm",
+    "glances",
+    "bashtop",
+    "bpytop",
+    "nvtop",
+    "gotop",
+    "ranger",
+    "superfile",
+    "broot",
+    "vifm",
+    "nnn",
+    "lf",
+    "fff",
+    "mc",
+    "midnight-commander",
+    "clifm",
+    "lazygit",
+    "lazydocker",
+    "tig",
+    "gitui",
+    "k9s",
+    "ox",
+    "bandwhich",
+    "gping",
+    "ncmpcpp",
+    "cmus",
+    "mocp",
+    "cava",
+    "cliamp",
+    "rmpc",
+    "spotify-tui",
+    "spt",
+    "mopidy",
+    "musikcube",
+    "weechat",
+    "irssi",
+    "profanity",
+    "neomutt",
+    "mutt",
+    "aerc",
+    "gomuks",
+    "senpai",
+    "tmux",
+    "zellij",
+    "cmatrix",
+    "pipes.sh",
+    "fastfetch",
+    "neofetch",
+    "cbonsai",
+    "tty-clock",
+    "peaclock",
+    "termshark",
+    "glow",
+    "curseofwar",
 ];
 
 const IGNORED_COMMAND_PREFIXES: &[&str] = &[
-    "sudo", "doas", "pkexec", "pacman", "yay", "paru", "apt", "dnf", "zypper",
-    "cargo", "npm", "pnpm", "yarn", "bun", "git", "make", "ninja", "cmake",
-    "pip", "python", "python3", "node", "go", "rustc", "gcc", "clang",
-    "find", "grep", "cat", "less", "more", "tail", "journalctl", "systemctl",
-    "sh", "bash", "zsh", "fish", "exec", "run", "echo", "rm", "cp", "mv",
-    "which", "whereis", "man", "info", "curl", "wget", "tar", "unzip", "zip",
-    "home", "user", "usr", "etc", "bin", "tmp", "var", "opt", "desktop", "documents", "downloads", "music", "pictures", "videos",
+    "sudo",
+    "doas",
+    "pkexec",
+    "pacman",
+    "yay",
+    "paru",
+    "apt",
+    "dnf",
+    "zypper",
+    "cargo",
+    "npm",
+    "pnpm",
+    "yarn",
+    "bun",
+    "git",
+    "make",
+    "ninja",
+    "cmake",
+    "pip",
+    "python",
+    "python3",
+    "node",
+    "go",
+    "rustc",
+    "gcc",
+    "clang",
+    "find",
+    "grep",
+    "cat",
+    "less",
+    "more",
+    "tail",
+    "journalctl",
+    "systemctl",
+    "sh",
+    "bash",
+    "zsh",
+    "fish",
+    "exec",
+    "run",
+    "echo",
+    "rm",
+    "cp",
+    "mv",
+    "which",
+    "whereis",
+    "man",
+    "info",
+    "curl",
+    "wget",
+    "tar",
+    "unzip",
+    "zip",
+    "home",
+    "user",
+    "usr",
+    "etc",
+    "bin",
+    "tmp",
+    "var",
+    "opt",
+    "desktop",
+    "documents",
+    "downloads",
+    "music",
+    "pictures",
+    "videos",
 ];
 
 const KNOWN_TERMINALS: &[&str] = &[
-    "foot", "footclient", "kitty", "alacritty", "org.alacritty",
-    "ghostty", "com.mitchellh.ghostty", "wezterm", "wezterm-gui",
-    "org.wezfurlong.wezterm", "gnome-terminal", "org.gnome.terminal",
-    "konsole", "org.kde.konsole", "xfce4-terminal", "tilix",
-    "com.gexperts.tilix", "xterm", "uxterm", "urxvt", "rxvt",
-    "rxvt-unicode", "termite", "terminator", "lxterminal", "st",
-    "simple-terminal", "rio", "contour", "blackbox",
-    "com.raggesilver.blackbox", "ptyxis", "org.gnome.ptyxis",
-    "tabby", "hyper", "warp", "warp-terminal",
+    "foot",
+    "footclient",
+    "kitty",
+    "alacritty",
+    "org.alacritty",
+    "ghostty",
+    "com.mitchellh.ghostty",
+    "wezterm",
+    "wezterm-gui",
+    "org.wezfurlong.wezterm",
+    "gnome-terminal",
+    "org.gnome.terminal",
+    "konsole",
+    "org.kde.konsole",
+    "xfce4-terminal",
+    "tilix",
+    "com.gexperts.tilix",
+    "xterm",
+    "uxterm",
+    "urxvt",
+    "rxvt",
+    "rxvt-unicode",
+    "termite",
+    "terminator",
+    "lxterminal",
+    "st",
+    "simple-terminal",
+    "rio",
+    "contour",
+    "blackbox",
+    "com.raggesilver.blackbox",
+    "ptyxis",
+    "org.gnome.ptyxis",
+    "tabby",
+    "hyper",
+    "warp",
+    "warp-terminal",
 ];
 
 fn canonical_cli(t: &str) -> String {
@@ -90,9 +241,14 @@ fn get_terminal_child_app(pid: i64) -> String {
     }
     // Check command line of terminal (e.g. "foot -e cliamp", "ghostty -e yazi")
     if let Ok(raw) = fs::read(format!("/proc/{pid}/cmdline")) {
-        let cmd_raw = String::from_utf8_lossy(&raw).replace('\0', " ").trim().to_string();
+        let cmd_raw = String::from_utf8_lossy(&raw)
+            .replace('\0', " ")
+            .trim()
+            .to_string();
         for t in tokenize(&cmd_raw.to_lowercase()) {
-            if (KNOWN_CLI_COMMANDS.contains(&t.as_str()) || t == "cliamp") && !is_terminal_identifier(&t) {
+            if (KNOWN_CLI_COMMANDS.contains(&t.as_str()) || t == "cliamp")
+                && !is_terminal_identifier(&t)
+            {
                 return canonical_cli(&t);
             }
         }
@@ -108,9 +264,14 @@ fn get_terminal_child_app(pid: i64) -> String {
                 }
             }
             if let Ok(raw) = fs::read(format!("/proc/{cpid}/cmdline")) {
-                let cmd_raw = String::from_utf8_lossy(&raw).replace('\0', " ").trim().to_string();
+                let cmd_raw = String::from_utf8_lossy(&raw)
+                    .replace('\0', " ")
+                    .trim()
+                    .to_string();
                 for t in tokenize(&cmd_raw.to_lowercase()) {
-                    if (KNOWN_CLI_COMMANDS.contains(&t.as_str()) || t == "cliamp") && !is_terminal_identifier(&t) {
+                    if (KNOWN_CLI_COMMANDS.contains(&t.as_str()) || t == "cliamp")
+                        && !is_terminal_identifier(&t)
+                    {
                         return canonical_cli(&t);
                     }
                 }
@@ -401,8 +562,9 @@ fn parse_url_host_path(raw_url: &str) -> (String, String) {
 
 static OPT_RE: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r#"--app=(?:"([^"]+)"|'([^']+)'|([^\s]+))"#).unwrap());
-static PROFILE_RE: LazyLock<Regex> =
-    LazyLock::new(|| Regex::new(r#"--profile-directory=(?:"([^"]+)"|'([^']+)'|([^\s]+))"#).unwrap());
+static PROFILE_RE: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r#"--profile-directory=(?:"([^"]+)"|'([^']+)'|([^\s]+))"#).unwrap()
+});
 static APP_ID_RE: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r#"--app-id=(?:"([^"]+)"|'([^']+)'|([^\s]+))"#).unwrap());
 
@@ -430,9 +592,16 @@ fn match_chrome_pwa(c_class: &str, query: &str) -> bool {
     }
 
     let c_class = c_class.to_lowercase();
-    if !["chrome-", "chromium-", "brave-", "edge-", "msedge-", "microsoft-edge-"]
-        .iter()
-        .any(|p| c_class.starts_with(p))
+    if ![
+        "chrome-",
+        "chromium-",
+        "brave-",
+        "edge-",
+        "msedge-",
+        "microsoft-edge-",
+    ]
+    .iter()
+    .any(|p| c_class.starts_with(p))
     {
         return false;
     }
@@ -443,11 +612,8 @@ fn match_chrome_pwa(c_class: &str, query: &str) -> bool {
         let (host, path) = parse_url_host_path(&raw_url);
         let path_replaced = path.replace('/', "_");
         let pwa_key = format!("{host}_{path_replaced}").to_lowercase();
-        let alt_key = format!(
-            "{host}_{}",
-            path.trim_end_matches('/').replace('/', "_")
-        )
-        .to_lowercase();
+        let alt_key =
+            format!("{host}_{}", path.trim_end_matches('/').replace('/', "_")).to_lowercase();
 
         if c_class.contains(&pwa_key) || c_class.contains(&alt_key) {
             match profile_from_query(query) {
@@ -623,9 +789,11 @@ fn scan_icon_dir(dir: &Path, svg: &mut HashMap<String, String>, png: &mut HashMa
             let fl = f.file_name().to_string_lossy().to_lowercase();
             let p = f.path();
             if let Some(stem) = fl.strip_suffix(".svg") {
-                svg.entry(stem.to_string()).or_insert_with(|| p.to_string_lossy().into_owned());
+                svg.entry(stem.to_string())
+                    .or_insert_with(|| p.to_string_lossy().into_owned());
             } else if let Some(stem) = fl.strip_suffix(".png") {
-                png.entry(stem.to_string()).or_insert_with(|| p.to_string_lossy().into_owned());
+                png.entry(stem.to_string())
+                    .or_insert_with(|| p.to_string_lossy().into_owned());
             }
         }
     }
@@ -737,7 +905,12 @@ fn focused_workspace_name(sock_path: &Path) -> String {
 }
 
 fn restore_window(sock_path: &Path, addr: &str, target_c: &Value, focused_ws: &str) {
-    let mut target_ws = if focused_ws.is_empty() { "1" } else { focused_ws }.to_string();
+    let mut target_ws = if focused_ws.is_empty() {
+        "1"
+    } else {
+        focused_ws
+    }
+    .to_string();
     if target_ws.starts_with("special:") {
         target_ws = "1".to_string();
     }
@@ -790,7 +963,10 @@ fn run(args: &[String]) {
     }
 
     if mode == "scan-icons" {
-        println!("{}", serde_json::to_string(&scan_disk_icons()).unwrap_or_default());
+        println!(
+            "{}",
+            serde_json::to_string(&scan_disk_icons()).unwrap_or_default()
+        );
         return;
     }
 
@@ -843,7 +1019,10 @@ fn run(args: &[String]) {
                 }
             }
         }
-        println!("{}", serde_json::to_string(&detected_apps).unwrap_or_default());
+        println!(
+            "{}",
+            serde_json::to_string(&detected_apps).unwrap_or_default()
+        );
         return;
     }
 
@@ -866,7 +1045,9 @@ fn run(args: &[String]) {
             break;
         }
         for et in tokenize(&q.to_lowercase()) {
-            if (KNOWN_CLI_COMMANDS.contains(&et.as_str()) || et == "cliamp") && !is_terminal_identifier(&et) {
+            if (KNOWN_CLI_COMMANDS.contains(&et.as_str()) || et == "cliamp")
+                && !is_terminal_identifier(&et)
+            {
                 target_cli = canonical_cli(&et);
                 break 'cli_search;
             }
@@ -940,10 +1121,7 @@ fn run(args: &[String]) {
     }
 
     if !target_addr.is_empty() {
-        if let Some(tc) = clients
-            .iter()
-            .find(|c| addr_of(c) == target_addr)
-        {
+        if let Some(tc) = clients.iter().find(|c| addr_of(c) == target_addr) {
             if !matching.contains(tc) {
                 matching.insert(0, tc.clone());
             }
@@ -1144,19 +1322,30 @@ mod tests {
 
     #[test]
     fn split_queries_address_is_selector() {
-        let qs: Vec<String> = ["firefox", "firefox.desktop", "/usr/bin/firefox", "0xDEADBEEF"]
-            .iter()
-            .map(|s| s.to_string())
-            .collect();
+        let qs: Vec<String> = [
+            "firefox",
+            "firefox.desktop",
+            "/usr/bin/firefox",
+            "0xDEADBEEF",
+        ]
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
         let (identifiers, index, addr) = split_queries(&qs);
-        assert_eq!(identifiers, vec!["firefox", "firefox.desktop", "/usr/bin/firefox"]);
+        assert_eq!(
+            identifiers,
+            vec!["firefox", "firefox.desktop", "/usr/bin/firefox"]
+        );
         assert_eq!(index, -1);
         assert_eq!(addr, "0xdeadbeef");
     }
 
     #[test]
     fn split_queries_legacy_index() {
-        let qs: Vec<String> = ["firefox", "--index=2"].iter().map(|s| s.to_string()).collect();
+        let qs: Vec<String> = ["firefox", "--index=2"]
+            .iter()
+            .map(|s| s.to_string())
+            .collect();
         let (identifiers, index, addr) = split_queries(&qs);
         assert_eq!(identifiers, vec!["firefox"]);
         assert_eq!(index, 2);
@@ -1256,15 +1445,17 @@ mod tests {
         let target_win = client("0xTARGET", "1");
         let other_win = client("0xOTHER", "1");
         let all_clients = vec![other_win, target_win.clone()];
-        let picked =
-            pick_target(&[], &[], &[], "0xtarget", -1, "", Some(&all_clients)).unwrap();
+        let picked = pick_target(&[], &[], &[], "0xtarget", -1, "", Some(&all_clients)).unwrap();
         assert_eq!(picked, &target_win);
     }
 
     static ENV_LOCK: Mutex<()> = Mutex::new(());
 
     fn temp_test_dir(tag: &str) -> PathBuf {
-        let d = std::env::temp_dir().join(format!("dock-minimize-rs-test-{tag}-{}", std::process::id()));
+        let d = std::env::temp_dir().join(format!(
+            "dock-minimize-rs-test-{tag}-{}",
+            std::process::id()
+        ));
         let _ = fs::remove_dir_all(&d);
         fs::create_dir_all(&d).unwrap();
         d
@@ -1276,12 +1467,19 @@ mod tests {
         let tmpdir = temp_test_dir("spaces");
         let app_dir = tmpdir.join("applications");
         fs::create_dir_all(&app_dir).unwrap();
-        fs::write(app_dir.join("My Custom App.desktop"), "[Desktop Entry]\nName=My Custom App\nType=Application\nExec=true\n").unwrap();
+        fs::write(
+            app_dir.join("My Custom App.desktop"),
+            "[Desktop Entry]\nName=My Custom App\nType=Application\nExec=true\n",
+        )
+        .unwrap();
         let old_xdg = env::var("XDG_DATA_DIRS").ok();
         env::set_var("XDG_DATA_DIRS", &tmpdir);
 
         assert_eq!(find_desktop_file("My Custom App"), "My Custom App.desktop");
-        assert_eq!(find_desktop_file("My Custom App.desktop"), "My Custom App.desktop");
+        assert_eq!(
+            find_desktop_file("My Custom App.desktop"),
+            "My Custom App.desktop"
+        );
 
         match old_xdg {
             Some(v) => env::set_var("XDG_DATA_DIRS", v),
@@ -1296,11 +1494,18 @@ mod tests {
         let tmpdir = temp_test_dir("telegram");
         let app_dir = tmpdir.join("applications");
         fs::create_dir_all(&app_dir).unwrap();
-        fs::write(app_dir.join("org.telegram.desktop.desktop"), "[Desktop Entry]\nName=Telegram\nType=Application\nExec=true\n").unwrap();
+        fs::write(
+            app_dir.join("org.telegram.desktop.desktop"),
+            "[Desktop Entry]\nName=Telegram\nType=Application\nExec=true\n",
+        )
+        .unwrap();
         let old_xdg = env::var("XDG_DATA_DIRS").ok();
         env::set_var("XDG_DATA_DIRS", &tmpdir);
 
-        assert_eq!(find_desktop_file("org.telegram.desktop"), "org.telegram.desktop.desktop");
+        assert_eq!(
+            find_desktop_file("org.telegram.desktop"),
+            "org.telegram.desktop.desktop"
+        );
 
         match old_xdg {
             Some(v) => env::set_var("XDG_DATA_DIRS", v),
@@ -1326,7 +1531,10 @@ mod tests {
             "org.gnome.ptyxis",
             "com.raggesilver.blackbox",
         ] {
-            assert!(is_terminal_identifier(app_id), "{app_id} should be a terminal");
+            assert!(
+                is_terminal_identifier(app_id),
+                "{app_id} should be a terminal"
+            );
         }
     }
 
@@ -1340,34 +1548,58 @@ mod tests {
     #[test]
     fn non_terminals_are_not_terminals() {
         for app_id in ["firefox", "org.mozilla.firefox", "org.gnome.Nautilus"] {
-            assert!(!is_terminal_identifier(app_id), "{app_id} should not be a terminal");
+            assert!(
+                !is_terminal_identifier(app_id),
+                "{app_id} should not be a terminal"
+            );
         }
     }
 
     #[test]
     fn real_world_chrome_pwa_classes() {
         let q_teams = r#"google-chrome-stable --profile-directory="Profile 1" --app="https://teams.microsoft.com/""#;
-        assert!(match_chrome_pwa("chrome-teams.microsoft.com__-Profile_1", q_teams));
+        assert!(match_chrome_pwa(
+            "chrome-teams.microsoft.com__-Profile_1",
+            q_teams
+        ));
 
         let q_outlook = r#"google-chrome-stable --profile-directory="Profile 1" --app="https://outlook.office.com/mail/""#;
-        assert!(match_chrome_pwa("chrome-outlook.office.com__mail_-Profile_1", q_outlook));
+        assert!(match_chrome_pwa(
+            "chrome-outlook.office.com__mail_-Profile_1",
+            q_outlook
+        ));
 
         let q_excel = r#"google-chrome-stable --profile-directory="Profile 1" --app="https://excel.cloud.microsoft/""#;
-        assert!(match_chrome_pwa("chrome-excel.cloud.microsoft__-Profile_1", q_excel));
+        assert!(match_chrome_pwa(
+            "chrome-excel.cloud.microsoft__-Profile_1",
+            q_excel
+        ));
     }
 
     #[test]
     fn pwa_profile_isolation() {
         let q_prof2 = r#"google-chrome-stable --profile-directory="Profile 2" --app="https://outlook.office.com/mail/""#;
-        assert!(!match_chrome_pwa("chrome-outlook.office.com__mail_-Profile_1", q_prof2));
-        assert!(match_chrome_pwa("chrome-outlook.office.com__mail_-Profile_2", q_prof2));
+        assert!(!match_chrome_pwa(
+            "chrome-outlook.office.com__mail_-Profile_1",
+            q_prof2
+        ));
+        assert!(match_chrome_pwa(
+            "chrome-outlook.office.com__mail_-Profile_2",
+            q_prof2
+        ));
     }
 
     #[test]
     fn pwa_fallback_when_no_profile() {
         let q_no_prof = r#"google-chrome-stable --app="https://outlook.office.com/mail/""#;
-        assert!(match_chrome_pwa("chrome-outlook.office.com__mail_-Profile_1", q_no_prof));
-        assert!(match_chrome_pwa("chrome-outlook.office.com__mail_-Default", q_no_prof));
+        assert!(match_chrome_pwa(
+            "chrome-outlook.office.com__mail_-Profile_1",
+            q_no_prof
+        ));
+        assert!(match_chrome_pwa(
+            "chrome-outlook.office.com__mail_-Default",
+            q_no_prof
+        ));
     }
 
     #[test]
@@ -1375,15 +1607,27 @@ mod tests {
         let q = r#"brave-browser --app="https://teams.microsoft.com/""#;
         assert!(match_chrome_pwa("brave-teams.microsoft.com__-Default", q));
         let q_edge = r#"microsoft-edge --app="https://teams.microsoft.com/""#;
-        assert!(match_chrome_pwa("msedge-teams.microsoft.com__-Default", q_edge));
-        assert!(match_chrome_pwa("edge-teams.microsoft.com__-Default", q_edge));
+        assert!(match_chrome_pwa(
+            "msedge-teams.microsoft.com__-Default",
+            q_edge
+        ));
+        assert!(match_chrome_pwa(
+            "edge-teams.microsoft.com__-Default",
+            q_edge
+        ));
     }
 
     #[test]
     fn pwa_app_id() {
         let q = r#"google-chrome-stable --profile-directory="Default" --app-id="appgkjomdnhhdolojlpkjafpklojikld""#;
-        assert!(match_chrome_pwa("chrome-appgkjomdnhhdolojlpkjafpklojikld-Default", q));
-        assert!(!match_chrome_pwa("chrome-appgkjomdnhhdolojlpkjafpklojikld-Profile_1", q));
+        assert!(match_chrome_pwa(
+            "chrome-appgkjomdnhhdolojlpkjafpklojikld-Default",
+            q
+        ));
+        assert!(!match_chrome_pwa(
+            "chrome-appgkjomdnhhdolojlpkjafpklojikld-Profile_1",
+            q
+        ));
     }
 
     #[test]

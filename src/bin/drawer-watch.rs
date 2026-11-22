@@ -88,7 +88,10 @@ fn cursor_over_drawer_window(cmd_sock: &Path, special: &str) -> bool {
         if ws != special {
             continue;
         }
-        let (Some(at), Some(size)) = (c.get("at").and_then(|v| v.as_array()), c.get("size").and_then(|v| v.as_array())) else {
+        let (Some(at), Some(size)) = (
+            c.get("at").and_then(|v| v.as_array()),
+            c.get("size").and_then(|v| v.as_array()),
+        ) else {
             continue;
         };
         let (Some(x), Some(y), Some(w), Some(h)) = (
@@ -136,7 +139,9 @@ fn watch() -> std::io::Result<()> {
             if addr.trim().is_empty() {
                 continue;
             }
-            let Some(cmd_sock) = get_hypr_socket() else { continue };
+            let Some(cmd_sock) = get_hypr_socket() else {
+                continue;
+            };
             let Some(special) = open_special_name(&cmd_sock) else {
                 continue; // no drawer open — nothing to do, stay silent
             };
